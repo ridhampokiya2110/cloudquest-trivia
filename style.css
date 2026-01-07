@@ -1,0 +1,24 @@
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: #f0f2f5; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        .container { 
+            background: white; 
+            padding: 2rem; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+            width: 100%; 
+            max-width: 500px; 
+            text-align: center; 
+        }
+        h1 { color: #ff9900; }
+        .question-box { margin: 20px 0; font-size: 1.2rem; }
+        .options button { display: block; width: 100%; padding: 10px; margin: 5px 0; border: 1px solid #ddd; background: #fff; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .options button:hover { background: #ff9900; color: white; border-color: #ff9900; }
+        #score-box { font-weight: bold; margin-top: 20px; color: #333; }
+        .hidden { display: none; }

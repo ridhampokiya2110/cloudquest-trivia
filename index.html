@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CloudQuest Trivia</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>☁️ CloudQuest</h1>
+    <div id="loading">Loading questions from AWS...</div>
+    
+    <div id="quiz-container" class="hidden">
+        <div id="question-text" class="question-box"></div>
+        <div id="options" class="options"></div>
+        <div id="score-box">Score: <span id="score">0</span></div>
+        <button id="next-btn" class="hidden" onclick="nextQuestion()">Next Question</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
+
+</body>
+</html>
