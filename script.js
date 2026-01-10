@@ -1,5 +1,6 @@
 const API_URL = "https://hgw9v57w8b.execute-api.ap-south-1.amazonaws.com//questions";
 
+
 let questions = [];
 let currentQuestionIndex = 0;
 let score = 0;
@@ -13,74 +14,80 @@ const optionsContainer = document.getElementById('options-container');
 const scoreDisplay = document.getElementById('score-display');
 const progressBar = document.getElementById('progress-fill');
 
-// Fetch Questions from AWS Lambda
+// Fetch Questions
 async function initGame() {
     try {
         const response = await fetch(API_URL);
-        if (!response.ok) throw new Error("Failed to fetch");
         questions = await response.json();
         
         loader.classList.add('hidden');
         gameContainer.classList.remove('hidden');
         loadQuestion();
     } catch (error) {
-        loader.innerHTML = `<p style="color:red">Error: ${error.message}. <br>Check your API URL!</p>`;
+        console.error("Error:", error);
+        loader.innerText = "Error loading questions. Check Console.";
     }
 }
 
 function loadQuestion() {
+    // Check if game is over
+    if (currentQuestionIndex >= questions.length) {
+        endGame();
+        return;
+    }
+
     const currentQuestion = questions[currentQuestionIndex];
     
-    // Update Progress Bar
+    // Update Progress
     const progressPercent = ((currentQuestionIndex) / questions.length) * 100;
     progressBar.style.width = `${progressPercent}%`;
 
-    // Set Text
+    // Set Question Text
     questionText.innerText = currentQuestion.question;
-    optionsContainer.innerHTML = ''; 
+    optionsContainer.innerHTML = ''; // Clear previous buttons
 
-    // Create Buttons
+    // Create Options Array
     const options = [
-        { text: currentQuestion.optionA, letter: "optionA" },
-        { text: currentQuestion.optionB, letter: "optionB" },
-        { text: currentQuestion.optionC, letter: "optionC" }
+        { text: currentQuestion.optionA },
+        { text: currentQuestion.optionB },
+        { text: currentQuestion.optionC }
     ];
 
+    // Create Buttons Dynamically
     options.forEach(opt => {
         const btn = document.createElement('button');
         btn.classList.add('option-btn');
         btn.innerText = opt.text;
+        
+        // This is where your error likely was.
+        // We are adding the onclick to the NEW button we just created.
         btn.onclick = () => handleAnswer(btn, opt.text, currentQuestion.answer);
+        
         optionsContainer.appendChild(btn);
     });
 }
 
 function handleAnswer(selectedBtn, selectedText, correctText) {
-    // Disable all buttons to prevent double clicking
     const allBtns = document.querySelectorAll('.option-btn');
-    allBtns.forEach(btn => btn.disabled = true);
+    allBtns.forEach(btn => btn.disabled = true); // Disable all buttons
 
     if (selectedText === correctText) {
         selectedBtn.classList.add('correct');
         score++;
         scoreDisplay.innerText = score;
-        triggerConfetti(0.5); // Small confetti for correct answer
+        triggerConfetti(0.5);
     } else {
         selectedBtn.classList.add('wrong');
-        // Highlight the correct one
+        // Highlight the correct answer
         allBtns.forEach(btn => {
             if (btn.innerText === correctText) btn.classList.add('correct');
         });
     }
 
-    // Wait 1.5 seconds then go to next question
+    // Delay before next question
     setTimeout(() => {
         currentQuestionIndex++;
-        if (currentQuestionIndex < questions.length) {
-            loadQuestion();
-        } else {
-            endGame();
-        }
+        loadQuestion();
     }, 1500);
 }
 
@@ -90,39 +97,22 @@ function endGame() {
     document.getElementById('final-score').innerText = score;
     document.getElementById('total-questions').innerText = questions.length;
     
-    if (score === questions.length) {
-        triggerConfetti(2); 
-    }
+    if (score === questions.length) triggerConfetti(2);
 }
 
-// Confetti Effect Helper
+// Confetti Effect
 function triggerConfetti(durationSeconds) {
     const end = Date.now() + (durationSeconds * 1000);
     const colors = ['#ff9900', '#ffffff'];
 
     (function frame() {
-        confetti({
-            particleCount: 2,
-            angle: 60,
-            spread: 55,
-            origin: { x: 0 },
-            colors: colors
-        });
-        confetti({
-            particleCount: 2,
-            angle: 120,
-            spread: 55,
-            origin: { x: 1 },
-            colors: colors
-        });
-
-        if (Date.now() < end) {
-            requestAnimationFrame(frame);
+        if (typeof confetti === 'function') {
+             confetti({ particleCount: 2, angle: 60, spread: 55, origin: { x: 0 }, colors: colors });
+             confetti({ particleCount: 2, angle: 120, spread: 55, origin: { x: 1 }, colors: colors });
         }
+        if (Date.now() < end) requestAnimationFrame(frame);
     }());
 }
 
+// Start Game
 initGame();
-
-    
-
