@@ -1,4 +1,4 @@
-const API_URL = "https:hgw9v57w8b.execute-api.ap-south-1.amazonaws.com//questions";
+const API_URL = "https://hgw9v57w8b.execute-api.ap-south-1.amazonaws.com//questions";
 
 let questions = [];
 let currentQuestionIndex = 0;
@@ -125,3 +125,4 @@ function triggerConfetti(durationSeconds) {
 initGame();
 
     
+
