@@ -3,24 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CloudQuest Trivia</title>
+    <title>CloudQuest | AWS Master Trivia</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 </head>
 <body>
 
-<div class="container">
-    <h1>☁️ CloudQuest</h1>
-    <div id="loading">Loading questions from AWS...</div>
-    
-    <div id="quiz-container" class="hidden">
-        <div id="question-text" class="question-box"></div>
-        <div id="options" class="options"></div>
-        <div id="score-box">Score: <span id="score">0</span></div>
-        <button id="next-btn" class="hidden" onclick="nextQuestion()">Next Question</button>
+    <div class="app-container">
+        <header>
+            <div class="logo">
+                <i class="fa-brands fa-aws"></i> CloudQuest
+            </div>
+            <div class="score-badge">
+                Score: <span id="score-display">0</span>
+            </div>
+        </header>
+
+        <main class="quiz-card">
+            
+            <div id="loader" class="loader-container">
+                <div class="spinner"></div>
+                <p>Fetching data from AWS Lambda...</p>
+            </div>
+
+            <div id="game-container" class="hidden">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                
+                <h2 id="question-text">Question goes here...</h2>
+                
+                <div class="options-grid" id="options-container">
+                    </div>
+
+                <div id="feedback" class="feedback-text hidden"></div>
+            </div>
+
+            <div id="end-screen" class="hidden">
+                <i class="fa-solid fa-trophy trophy-icon"></i>
+                <h2>Quiz Completed!</h2>
+                <p class="final-score">You scored <span id="final-score">0</span> out of <span id="total-questions">0</span></p>
+                <button class="restart-btn" onclick="location.reload()">
+                    <i class="fa-solid fa-rotate-right"></i> Play Again
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <p>Powered by AWS Serverless (Lambda & DynamoDB)</p>
+        </footer>
     </div>
-</div>
 
-<script src="script.js"></script>
-
+    <script src="script.js"></script>
 </body>
 </html>
