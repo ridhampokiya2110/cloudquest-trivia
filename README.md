@@ -20,4 +20,4 @@ TECHNOLOGY STACK:
 5. DevOps: GitHub Actions for CI/CD pipeline
 
 LIVE DEMO:
-d3s7gaidpnlw9m.cloudfront.net
+htpps://d3s7gaidpnlw9m.cloudfront.net/
